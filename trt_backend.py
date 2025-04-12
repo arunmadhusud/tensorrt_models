@@ -97,11 +97,11 @@ class BaseEngine(object):
                 self.inputs.append(binding)
             else:
                 self.outputs.append(binding)
-            print(
-                "{} '{}' with shape {} and dtype {}".format(
-                    "Input" if is_input else "Output", binding["name"], binding["shape"], binding["dtype"]
-                )
-            )
+            # print(
+            #     "{} '{}' with shape {} and dtype {}".format(
+            #         "Input" if is_input else "Output", binding["name"], binding["shape"], binding["dtype"]
+            #     )
+            # )
         
     def infer(self, inputs:list):
         """

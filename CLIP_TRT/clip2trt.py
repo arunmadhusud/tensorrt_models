@@ -63,19 +63,20 @@ def export_text_model(model, text, onnx_path, verbose=False):
 def main(args):
 
     # Load the model and tokenizer
-    model, _, preprocess = open_clip.create_model_and_transforms('ViT-B-32', pretrained='laion2b_s34b_b79k')
-    model.eval()  # Model in evaluation mode
-    tokenizer = open_clip.get_tokenizer('ViT-B-32')
+    model_name = "ViT-L-14"
+    pretrained = "laion2b_s32b_b82k"  # Recommended for ViT-L-14
+    model, _, preprocess = open_clip.create_model_and_transforms(
+        model_name=model_name,
+        pretrained=pretrained
+    )
+    model = model.eval()  # Set model to evaluation mode
+    tokenizer = open_clip.get_tokenizer(model_name)
     print(f'Loaded Open_CLIP model')
 
     # Prepare the image and text
-    image1 = preprocess(Image.open("images/dog.jpg"))
-    image2 = preprocess(Image.open("images/cat.jpeg"))
-
-    # Stack the images into a batch
-    image = torch.stack([image1, image2])
-
-    text = tokenizer(["a dog","a cat"])
+    image = preprocess(Image.open("images/dog.jpg"))
+    image = image.unsqueeze(0)
+    text = tokenizer(["a dog"])
 
     # Pytorch inference
     with torch.no_grad():
@@ -130,8 +131,8 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--opt_batch_size', type=int, default=2, help="Optimum batch size for TensorRT engine")
-    parser.add_argument('--max_batch_size', type=int, default=6, help="Maximum batch size for TensorRT engine")
+    parser.add_argument('--opt_batch_size', type=int, default=1, help="Optimum batch size for TensorRT engine")
+    parser.add_argument('--max_batch_size', type=int, default=3, help="Maximum batch size for TensorRT engine")
     parser.add_argument('--image_fp16', action='store_true', help="Use FP16 for image encoder")
     parser.add_argument('--text_fp16', action='store_true', help="Use FP16 for text encoder")
 

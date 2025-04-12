@@ -3,6 +3,8 @@ import torch
 import numpy as np
 import onnx
 import onnxoptimizer
+import time
+
 
 import sys
 import os
@@ -61,5 +63,23 @@ def verify_trt_model(trt_path, input_data, expected_output):
         print(e)
         print("\n[Note] Mismatch may be due to FP16 conversion (if --fp16 flag was used).")
         return False
+
+def measure_torch_time(fn, runs=100):
+    with torch.no_grad():
+        for _ in range(5):
+            _ = fn()
+    t0 = time.perf_counter()
+    with torch.no_grad():
+        for _ in range(runs):
+            _ = fn()
+    return (time.perf_counter() - t0) / runs * 1000
+
+def measure_trt_time(trt_model, input_data, runs=100):
+    for _ in range(5):
+        _ = trt_model.infer([input_data])
+    t0 = time.perf_counter()
+    for _ in range(runs):
+        _ = trt_model.infer([input_data])
+    return (time.perf_counter() - t0) / runs * 1000
 
 
