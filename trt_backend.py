@@ -74,7 +74,7 @@ class BaseEngine(object):
             # CoCa model has a dynamic shape for the second dimension which is not supported by TensorRT for memory allocation
             # so we set it to 77 (maximum sequence length)
             if CoCa:
-              if len(shape) == 3 and shape[1] < 0:
+              if shape[1] < 0:
                 shape[1] = 77
 
             for s in shape:

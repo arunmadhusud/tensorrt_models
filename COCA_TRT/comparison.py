@@ -27,7 +27,7 @@ def main(args):
 
     # Dummy Inputs
     dummy_image = torch.randn(1, 3, 224, 224).to(device)
-    dummy_text_tokens = torch.randint(0, 49408, (1, 76)).to(device)
+    dummy_text_tokens = torch.randint(0, 49408, (1, 6)).to(device)
     dummy_image_embs = torch.randn(1, 255, 768).to(device)
     dummy_token_embs = torch.randn(1, 6, 768).to(device)
 
