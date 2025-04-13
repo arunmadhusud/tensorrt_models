@@ -3,7 +3,7 @@ import sys
 import os
 import cv2
 
-from utils import inference, get_fps
+from utils import inference
 
 def main(args):
     class_names_list = ['person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus', 'train', 'truck', 'boat', 'traffic light',
@@ -16,14 +16,12 @@ def main(args):
                     'cell phone', 'microwave', 'oven', 'toaster', 'sink', 'refrigerator', 'book', 'clock', 'vase',
                     'scissors', 'teddy bear', 'hair drier', 'toothbrush']
     img_pred = inference(trt_path=args.trt_path,img_path = args.image,class_names=class_names_list,conf=0.4)
-    cv2.imwrite("output.png" , img_pred)
-    get_fps(args.trt_path)
+    cv2.imwrite("output.png" , img_pred)   
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-e", "--trt_path", help="TRT engine Path")
     parser.add_argument("-i", "--image", help="image path")
-    parser.add_argument("-o", "--output", help="image output path")
 
     args = parser.parse_args()
 

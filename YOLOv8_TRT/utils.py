@@ -115,18 +115,36 @@ def vis(img, boxes, scores, cls_ids, conf=0.5, class_names=None):
 
     return img
 
-def get_fps(trt_path):
+def measure_trt(trt_path,img=None,runs=100):
     import time
     trt_model = BaseEngine(trt_path)
-    img = np.ones((1,3,640,640))
+    if img is None: img = np.ones((1,3,640,640))
     img = np.ascontiguousarray(img, dtype=np.float32)
     for _ in range(5):  # warmup
         _ = trt_model.infer([img])
 
     t0 = time.perf_counter()
-    for _ in range(100):  # calculate average time
+    for _ in range(runs):  # calculate average time
         _ = trt_model.infer([img])
-    print(100/(time.perf_counter() - t0), 'FPS')
+    
+    return (time.perf_counter() - t0) / runs * 1000
+
+def measure_pytorch(model, img, runs=100):
+    import time
+    model.eval()
+
+    # Warm-up
+    for _ in range(5):
+        _ = model(img)
+
+    # Time inference
+    t0 = time.perf_counter()
+    for _ in range(runs):
+        _ = model(img)
+    avg_time_ms = (time.perf_counter() - t0) / runs * 1000  # ms
+
+    return avg_time_ms
+    
 
 
 def inference(trt_path,img_path,class_names,conf=0.5):

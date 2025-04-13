@@ -1,0 +1,10 @@
+torch 
+torchvision 
+torchaudio
+wheel
+tensorrt
+pycuda
+ultralytics
+onnx
+onnxruntime-gpu
+onnxoptimizer

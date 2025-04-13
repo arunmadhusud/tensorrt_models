@@ -177,9 +177,7 @@ def main(args):
     # Move the model to the GPU
     yolo_model.to(device).eval()
 
-    onnx_conv = True
-    if onnx_conv : max_wh=None
-    else : max_wh = 640
+    max_wh = 640 if args.onnx_conv else None
 
     onnx_model = End2End(yolo_model,max_obj=100, iou_thres=0.45, score_thres=0.25, max_wh=max_wh, device=device, n_classes=80).to(device)
     
