@@ -7,6 +7,7 @@ This repository contains code for converting CLIP models to TensorRT format for 
 - TensorRT 10.9.0.34
 - CUDA 12.4
 - PyTorch 2.6.0
+- Nvidia T4 GPU
 
 ## Installation
 
@@ -28,10 +29,10 @@ python3 clip2trt.py --opt_batch_size 1 --max_batch_size 3 --image_fp16 --text_fp
 
 ## Performance Results
 
-| Model | Encoder | PyTorch FP32 (ms) | TensorRT FP32 (ms) | TensorRT FP16 (ms) |
+| Model | Type | PyTorch FP32 (ms) | TensorRT FP32 (ms) | TensorRT FP16 (ms) |
 |:-----:|:-------:|:-----------------:|:------------------:|:-------------------:|
-| CLIP<br>ViT-L/14 | Image | 67.39 | 54.50 | 12.00 |
-| CLIP<br>ViT-L/14 | Text | 19.88 | 6.52 | 2.09 |
+| CLIP<br>ViT-L/14 | Image Encoder| 57.39 | 48.89 | 11.35 |
+| CLIP<br>ViT-L/14 | Text Encoder | 10.98 | 5.71 | 1.84 |
 
 
 ## Acknowledgements
