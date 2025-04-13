@@ -29,7 +29,7 @@ python3 yolo2trt.py --opt_batch_size 1 --max_batch_size 3 --fp16
 ```
 ### For inference using TensorRT engine
 ```bash
-!python3 infer_trt.py -e yolov8x.trt -i images/bus.jpg
+python3 infer_trt.py -e yolov8x.trt -i images/bus.jpg
 ```
 
 ## Performance Results
